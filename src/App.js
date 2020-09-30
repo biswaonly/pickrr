@@ -7,6 +7,7 @@ import "./App.css";
 import Layout from "./components/layout/Layout";
 import SearchBar from "./components/layout/SearchBar";
 import Home from "./components/home/Home";
+import BeerCard from "./components/layout/BeerCard";
 
 const App = () => {
   const [pageCount, setPageCount] = useState(1);
@@ -68,7 +69,6 @@ const App = () => {
     <div className="App">
       <Layout febRoute={febRoute} setFebRoute={setFebRoute} />
       <div className="container">
-        <SearchBar data={fetchData} setSearchData={setSearchData} />
         <Switch>
           <Route
             exact
@@ -76,6 +76,7 @@ const App = () => {
             render={props => (
               <Home
                 data={fetchData}
+                setSearchData={setSearchData}
                 setFetchData={setFetchData}
                 febRoute={febRoute}
                 columnCount={columnCount}
@@ -90,10 +91,22 @@ const App = () => {
             render={props => (
               <Home
                 data={fetchData}
+                setSearchData={setSearchData}
                 setFetchData={setFetchData}
                 febRoute={febRoute}
                 columnCount={columnCount}
                 searchData={searchData}
+                {...props}
+              />
+            )}
+          />
+          <Route
+            exact
+            path="/beer"
+            render={props => (
+              <BeerCard
+                data={fetchData}
+                setFetchData={setFetchData}
                 {...props}
               />
             )}

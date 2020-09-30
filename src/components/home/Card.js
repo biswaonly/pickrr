@@ -1,13 +1,16 @@
 import React from "react";
 import { Card } from "antd";
 import { HeartOutlined, HeartFilled } from "@ant-design/icons";
+import { withRouter } from "react-router-dom";
 
 const { Meta } = Card;
 
-const CardComponent = ({ item, data, setFetchData }) => {
-  const handleFavorite = () => {
-    let index = data.findIndex(e => {
-      return e.id === item.id;
+const CardComponent = ({ history, item, data, setFetchData }) => {
+  // Click for favorite Beer
+  const handleFavorite = e => {
+    e.stopPropagation();
+    let index = data.findIndex(ele => {
+      return ele.id === item.id;
     });
     if (!item.isFavorite) {
       let newItem = { ...item, isFavorite: true };
@@ -26,9 +29,13 @@ const CardComponent = ({ item, data, setFetchData }) => {
     }
   };
 
+  const handleClick = () => {
+    history.push("/beer", { ...item });
+  };
+
   return (
-    <Card className="card" hoverable>
-      <div style={{ float: "right" }} onClick={handleFavorite}>
+    <Card className="card" hoverable onClick={handleClick}>
+      <div style={{ float: "right" }} onClick={e => handleFavorite(e)}>
         {item.isFavorite ? <HeartFilled /> : <HeartOutlined />}
       </div>
       <Meta
@@ -40,4 +47,4 @@ const CardComponent = ({ item, data, setFetchData }) => {
   );
 };
 
-export default CardComponent;
+export default withRouter(CardComponent);
